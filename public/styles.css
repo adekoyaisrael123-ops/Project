@@ -1,0 +1,155 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #07111f;
+  --panel: rgba(15, 23, 42, 0.9);
+  --panel-border: rgba(148, 163, 184, 0.4);
+  --text: #e5e7eb;
+  --muted: #cbd5e1;
+  --accent: #22c55e;
+  --secondary: #a78bfa;
+  --danger: #f87171;
+  --status: rgba(59, 130, 246, 0.18);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(135deg, var(--bg), #111827);
+  color: var(--text);
+}
+
+.container {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.card {
+  width: min(760px, 100%);
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+}
+
+.subtitle {
+  margin: 0 0 20px;
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+label {
+  font-weight: 700;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
+}
+
+input,
+textarea {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 10px;
+  color: var(--text);
+  padding: 12px 14px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 20px 0 18px;
+}
+
+button {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+button:hover {
+  opacity: 0.94;
+}
+
+button {
+  background: var(--accent);
+  color: #062c12;
+}
+
+button.secondary {
+  background: var(--secondary);
+  color: #180d2f;
+}
+
+.status {
+  background: var(--status);
+  border: 1px solid rgba(96, 165, 250, 0.5);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: #dbeafe;
+  margin-bottom: 18px;
+}
+
+.demo-keys {
+  margin-top: 24px;
+}
+
+ul {
+  padding-left: 18px;
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
+li + li {
+  margin-top: 8px;
+}
+
+code {
+  background: rgba(148, 163, 184, 0.12);
+  padding: 4px 7px;
+  border-radius: 6px;
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

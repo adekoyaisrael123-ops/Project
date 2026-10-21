@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secure License Activation Demo</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <section class="card">
+        <h1>Secure Product Key Activation</h1>
+        <p class="subtitle">Database-backed keys, expiry checks, revocation, device binding, and signed JWT activation tokens.</p>
+
+        <div class="grid">
+          <div class="field-group">
+            <label for="productKey">Product key</label>
+            <input id="productKey" type="text" value="PRO-2025-ALPHA" placeholder="PRO-2025-ALPHA" />
+          </div>
+
+          <div class="field-group">
+            <label for="userId">User ID</label>
+            <input id="userId" type="text" value="demo-user-1" placeholder="demo-user-1" />
+          </div>
+
+          <div class="field-group full-width">
+            <label for="deviceFingerprint">Device fingerprint</label>
+            <input id="deviceFingerprint" type="text" value="desktop-win-02" placeholder="desktop-win-02" />
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="generateBtn">Generate activation key</button>
+          <button id="validateBtn" class="secondary">Validate activation key</button>
+        </div>
+
+        <div id="statusBox" class="status">Ready.</div>
+
+        <div class="result-block">
+          <label for="activationKey">Activation key</label>
+          <textarea id="activationKey" rows="6" readonly placeholder="Generated JWT activation key appears here"></textarea>
+        </div>
+
+        <div class="demo-keys">
+          <h3>Demo keys from SQLite database</h3>
+          <ul id="demoKeys"></ul>
+        </div>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

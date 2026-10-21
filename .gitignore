@@ -1,0 +1,91 @@
+async function fetchJson(url, payload) {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || "Request failed.");
+  }
+
+  return data;
+}
+
+const productKeyInput = document.getElementById("productKey");
+const userIdInput = document.getElementById("userId");
+const deviceFingerprintInput = document.getElementById("deviceFingerprint");
+const activationKeyBox = document.getElementById("activationKey");
+const statusBox = document.getElementById("statusBox");
+const demoKeysList = document.getElementById("demoKeys");
+
+async function loadDemoKeys() {
+  try {
+    const response = await fetch("/api/keys");
+    const data = await response.json();
+
+    demoKeysList.innerHTML = data.keys
+      .map((item) => `<li><code>${item.product_key}</code> — ${item.plan} — ${item.status}</li>`)
+      .join("");
+  } catch (error) {
+    statusBox.textContent = "Could not load demo keys.";
+  }
+}
+
+async function generateKey() {
+  const productKey = productKeyInput.value.trim();
+  const userId = userIdInput.value.trim();
+  const deviceFingerprint = deviceFingerprintInput.value.trim();
+
+  if (!productKey) {
+    statusBox.textContent = "Please enter a product key.";
+    return;
+  }
+
+  statusBox.textContent = "Generating signed JWT activation key...";
+
+  try {
+    const data = await fetchJson("/api/generate-activation-key", {
+      productKey,
+      userId,
+      deviceFingerprint
+    });
+
+    activationKeyBox.value = data.activationKey;
+    statusBox.textContent = `Activation key generated for ${data.plan} and user ${data.userId}.`;
+  } catch (error) {
+    activationKeyBox.value = "";
+    statusBox.textContent = error.message;
+  }
+}
+
+async function validateKey() {
+  const activationKey = activationKeyBox.value.trim();
+  const userId = userIdInput.value.trim();
+  const deviceFingerprint = deviceFingerprintInput.value.trim();
+
+  if (!activationKey) {
+    statusBox.textContent = "Generate an activation key first.";
+    return;
+  }
+
+  statusBox.textContent = "Validating JWT activation key...";
+
+  try {
+    const data = await fetchJson("/api/validate-activation-key", {
+      activationKey,
+      userId,
+      deviceFingerprint
+    });
+
+    statusBox.textContent = `Valid license for ${data.plan}, customer ${data.customerId}. Features: ${data.features.join(", ")}`;
+  } catch (error) {
+    statusBox.textContent = error.message;
+  }
+}
+
+document.getElementById("generateBtn").addEventListener("click", generateKey);
+document.getElementById("validateBtn").addEventListener("click", validateKey);
+loadDemoKeys();
